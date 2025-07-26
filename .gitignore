@@ -1,0 +1,34 @@
+# Build artifacts
+*.o
+*.obj
+*.exe
+*.out
+*.app
+*.dll
+*.so
+*.dylib
+
+# Debug files
+*.dSYM/
+*.dSYM
+
+# Backup files
+*~
+*.swp
+*.swo
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# MacOS specific
+.DS_Store
+
+# Windows specific
+Thumbs.db
+
+# VSCode settings folder (optional)
+.vscode/
+
+# CTags
+tags
