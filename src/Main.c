@@ -67,7 +67,7 @@ void run_commands_in_dir(const char *path) {
     // int ret = system(cmd);
 
     char cmd[MAX_PATH];
-    snprintf(cmd,sizeof(cmd),"cd %s; git init; git add .; git commit -m \"init commit\"; gh repo create %s --public --source=. --remote=origin --push",path,basename(path));
+    snprintf(cmd,sizeof(cmd),"cd %s; git add .; git commit -m \"init commit\"; git push origin",path,basename(path));
     int ret = system(cmd);
 
     printf("\n>> Done: %s\n", path);
