@@ -49,8 +49,8 @@ void run_commands_in_dir(const char *path) {
     printf("\n>> In directory: %s\n", path);
 
     char name1[MAX_PATH];
-    snprintf(name1,sizeof(name1),"%s/LICENCE",path);
-    copy_file("./LICENCE",name1);
+    snprintf(name1,sizeof(name1),"%s/LICENSE",path);
+    copy_file("./LICENSE",name1);
 
     char name2[MAX_PATH];
     snprintf(name2,sizeof(name2),"%s/.gitignore",path);
@@ -60,13 +60,17 @@ void run_commands_in_dir(const char *path) {
     snprintf(name3,sizeof(name3),"%s/README.md",path);
     copy_file("./README.md",name3);
 
-    system("git init");
-    system("git add .");
-    system("git commit -m \"init commit\"");
+    printf("\n>> Files added: %s\n", path);
+
+    // char cmd[MAX_PATH];
+    // snprintf(cmd,sizeof(cmd),"cd %s; pwd",path);
+    // int ret = system(cmd);
 
     char cmd[MAX_PATH];
-    snprintf(cmd,sizeof(cmd),"gh repo create %s --public --source=. --remote=origin --push", basename(path));
+    snprintf(cmd,sizeof(cmd),"cd %s; git init; git add .; git commit -m \"init commit\"; gh repo create %s --public --source=. --remote=origin --push",path,basename(path));
     int ret = system(cmd);
+
+    printf("\n>> Done: %s\n", path);
 }
 void walk_directory(const char *base_path) {
     struct dirent *entry;
@@ -78,11 +82,12 @@ void walk_directory(const char *base_path) {
     }
 
     while ((entry = readdir(dir)) != NULL) {
+        // "." und ".." ignorieren
         if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
             continue;
 
         char full_path[MAX_PATH];
-        snprintf(full_path, sizeof(full_path), "%s/%s", base_path, entry->d_name);
+        snprintf(full_path, sizeof(full_path), "%s%s", base_path, entry->d_name);
 
         struct stat st;
         if (stat(full_path, &st) == -1) {
@@ -91,7 +96,7 @@ void walk_directory(const char *base_path) {
         }
 
         if (S_ISDIR(st.st_mode)) {
-            walk_directory(full_path);
+            // Keine Rekursion hier
             run_commands_in_dir(full_path);
         }
     }
