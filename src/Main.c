@@ -7,6 +7,8 @@
 #include <libgen.h>
 #include <fcntl.h>
 
+#include "/home/codeleaded/System/Static/Library/CStr.h"
+
 #define MAX_PATH 4096
 #define BUFFER_SIZE 8192
 
@@ -46,6 +48,14 @@ int copy_file(const char *src, const char *dst) {
     return (bytes < 0) ? -1 : 0;
 }
 void run_commands_in_dir(const char *path) {
+    char cwd[512];
+    if (getcwd(cwd,sizeof(cwd)) != NULL && CStr_Cmp(path,cwd)) {
+        return;
+    } else {
+        perror("getcwd() error");
+        return;
+    }
+    
     printf("\n>> In directory: %s\n", path);
 
     char name1[MAX_PATH];
