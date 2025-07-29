@@ -16,7 +16,7 @@ https://github.com/codeleaded
 
 ## Installation
 
-Describe how to install and set up your project.
+How to install and set up your project:
 
 ```bash
 # Example installation commands
