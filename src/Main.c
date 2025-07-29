@@ -49,8 +49,8 @@ int copy_file(const char *src, const char *dst) {
 }
 void run_commands_in_dir(const char *path) {
     char cwd[512];
-    if (getcwd(cwd,sizeof(cwd)) != NULL && CStr_Cmp(path,cwd)) {
-        return;
+    if (getcwd(cwd,sizeof(cwd)) != NULL) {
+        if(CStr_Cmp(path,cwd)) return;
     } else {
         perror("getcwd() error");
         return;
