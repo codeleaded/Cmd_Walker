@@ -59,6 +59,10 @@ void run_commands_in_dir(const char *path) {
     char name3[MAX_PATH];
     snprintf(name3,sizeof(name3),"%s/README.md",path);
     copy_file("./README.md",name3);
+    
+    char name4[MAX_PATH];
+    snprintf(name4,sizeof(name4),"%s/Makefile",path);
+    copy_file("./Makefile",name4);
 
     printf("\n>> Files added: %s\n", path);
 
@@ -67,7 +71,15 @@ void run_commands_in_dir(const char *path) {
     // int ret = system(cmd);
 
     char cmd[MAX_PATH];
-    snprintf(cmd,sizeof(cmd),"cd %s; git add .; git commit -m \"init commit\"; git push origin",path,basename(path));
+    snprintf(
+        cmd,
+        sizeof(cmd),
+        "cd %s; git add .; git commit -m \"init commit\";\
+        gh repo create %s --public --source=. --remote=origin --push;\
+        git remote set-url origin https://github.com/codeleaded/%s.git;\
+        git push origin",
+        path,basename(path),basename(path)
+    );
     int ret = system(cmd);
 
     printf("\n>> Done: %s\n", path);
